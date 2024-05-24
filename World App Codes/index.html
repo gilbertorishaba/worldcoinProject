@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Worldcoin is ERC20, Ownable {
+    constructor(uint256 initialSupply) ERC20("Worldcoin", "WLD") {
+        _mint(msg.sender, initialSupply);
+    }
+
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+}
+
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+
+const Wallet = ({ provider, address }) => {
+  const [balance, setBalance] = useState('0');
+
+  useEffect(() => {
+    const getBalance = async () => {
+      const balance = await provider.getBalance(address);
+      setBalance(ethers.utils.formatEther(balance));
+    };
+
+    getBalance();
+  }, [provider, address]);
+
+  return (
+    <div>
+      <h1>Wallet Balance</h1>
+      <p>{balance} WLD</p>
+    </div>
+  );
+};
+
+export default Wallet;
+
+    
+</body>
+</html>
+
+
